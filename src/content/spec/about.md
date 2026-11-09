@@ -1,9 +1,4 @@
-# About
-<!-- This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+양서린 (Kirby). iOS · Android 앱 개발자.
 
-::github{repo="saicaca/fuwari"}
-
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty) -->
+- github: [bisor0627](https://github.com/bisor0627)
+- mail: [bisor0627@gmail.com](mailto:bisor0627@gmail.com)

@@ -1,0 +1,54 @@
+---
+import "@fontsource-variable/jetbrains-mono";
+import "katex/dist/katex.min.css";
+import "../styles/site.css";
+import { site } from "../config";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} · ${site.title}` : site.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={site.lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark" />
+		<meta name="theme-color" content="#16171a" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:type" content="website" />
+	</head>
+	<body>
+		<div class="page">
+			<header class="nav mono">
+				<a class="brand" href="/">kirby</a>
+				<nav>
+					<a href="/#apps">apps</a>
+					<a href="/#log">log</a>
+					<a href="/about/">about</a>
+					<a href={site.github} rel="me">github ↗</a>
+				</nav>
+			</header>
+			<main>
+				<slot />
+			</main>
+			<footer class="footer mono">
+				<span>© {new Date().getFullYear()} {site.name}</span>
+				<a href="/rss.xml">rss</a>
+			</footer>
+		</div>
+	</body>
+</html>

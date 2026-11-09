@@ -1,0 +1,53 @@
+---
+import { apps, site } from "../config";
+import Base from "../layouts/Base.astro";
+import { getPosts, shortDate } from "../utils/posts";
+
+const posts = await getPosts();
+---
+
+<Base>
+	<section class="intro">
+		<h1>{site.name}</h1>
+		<p>{site.role}</p>
+	</section>
+
+	<section class="section" id="apps">
+		<h2 class="section-label">{"// apps"}</h2>
+		{apps.length === 0 ? (
+			<p class="empty">없음</p>
+		) : (
+			<ul class="list">
+				{apps.map((app) => (
+					<li>
+						<div>
+							<span class="app-name">{app.name}</span>
+							<span class="app-summary"> — {app.summary}</span>
+							<div class="app-links">
+								{app.appStore && <a href={app.appStore}>app store ↗</a>}
+								{app.playStore && <a href={app.playStore}>google play ↗</a>}
+								{app.privacy && <a href={app.privacy}>privacy</a>}
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		)}
+	</section>
+
+	<section class="section" id="log">
+		<h2 class="section-label">{"// log"}</h2>
+		{posts.length === 0 ? (
+			<p class="empty">없음</p>
+		) : (
+			<ul class="list">
+				{posts.map((post) => (
+					<li>
+						<span class="date">{shortDate(post.data.published)}</span>
+						<a href={`/posts/${post.slug}/`}>{post.data.title}</a>
+					</li>
+				))}
+			</ul>
+		)}
+	</section>
+</Base>
