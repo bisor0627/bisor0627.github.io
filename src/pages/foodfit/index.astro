@@ -1,0 +1,254 @@
+---
+import { Image } from "astro:assets";
+import compare from "../../assets/foodfit/compare.jpg";
+import home from "../../assets/foodfit/home.jpg";
+import icon from "../../assets/foodfit/icon.svg";
+import reasons from "../../assets/foodfit/reasons.jpg";
+import score from "../../assets/foodfit/score.jpg";
+import tournament from "../../assets/foodfit/tournament.jpg";
+import Base from "../../layouts/Base.astro";
+
+// Fill in once the app is approved; until then the button reads "심사 중".
+const appStore = "";
+const privacy = "https://bisor0627.github.io/apps/foodfit/privacy.html";
+const support = "https://bisor0627.github.io/apps/foodfit/support.html";
+
+const shots = [
+	{ src: home, alt: "홈 — 장보기 전에 이거 사도 될까?" },
+	{ src: score, alt: "판단 결과 — 0–100점과 괜찮아요 · 양 조절 · 주의" },
+	{ src: reasons, alt: "근거 — 감점 항목과 확인이 필요한 원재료" },
+	{ src: tournament, alt: "후보 담기 — 토너먼트로 고르기" },
+	{ src: compare, alt: "비교 — 둘씩 나란히, 개당 가격까지" },
+];
+
+const features = [
+	{
+		label: "01",
+		title: "0–100점으로 판단",
+		body: "식품 하나를 점수로 보고 괜찮아요 · 양 조절 · 주의 세 단계로 나눠 보여 줍니다.",
+	},
+	{
+		label: "02",
+		title: "근거까지",
+		body: "점수를 깎은 항목(포화지방 · 트랜스지방 · 콜레스테롤 · 당류)과 원재료 중 확인이 필요한 재료(첨가당 · 가공유지 등)를 함께 보여 줍니다.",
+	},
+	{
+		label: "03",
+		title: "세 가지로 찾기",
+		body: "이름 검색, 바코드, 성분표 사진. 사진은 기기 안에서 바로 읽습니다.",
+	},
+	{
+		label: "04",
+		title: "고르기 토너먼트",
+		body: "후보를 담아 두고 둘씩 비교해 하나만 남깁니다. 개당 가격도 같이 봅니다.",
+	},
+];
+
+const sources = [
+	["이름 검색", "식약처 식품영양성분DB (data.go.kr)"],
+	["바코드", "Open Food Facts"],
+	["원재료", "식품안전나라 C002 (품목보고번호)"],
+	["성분표 사진", "기기 안 OCR"],
+];
+---
+
+<Base title="푸드핏" description="콜레스테롤 관리 기준으로 식품을 0–100점으로 판단해 주는 장보기 앱">
+	<section class="ff-hero">
+		<Image src={icon} alt="" width={88} height={88} class="ff-icon" />
+		<h1>푸드핏</h1>
+		<p class="ff-tagline">장보기 전에, 이거 사도 될까?</p>
+		<p class="ff-sub">콜레스테롤 관리 기준으로 식품을 0–100점으로 판단해 주는 iPhone 앱</p>
+		<div class="ff-actions">
+			{appStore ? (
+				<a class="ff-button" href={appStore}>App Store에서 받기 ↗</a>
+			) : (
+				<span class="ff-button is-pending">App Store 심사 중</span>
+			)}
+			<a class="ff-link mono" href={privacy}>privacy</a>
+			<a class="ff-link mono" href={support}>support</a>
+		</div>
+	</section>
+
+	<section class="ff-shots" aria-label="스크린샷">
+		{shots.map((shot) => (
+			<Image src={shot.src} alt={shot.alt} width={220} widths={[220, 440]} sizes="220px" />
+		))}
+	</section>
+
+	<section class="section">
+		<h2 class="section-label">{"// features"}</h2>
+		<div class="ff-grid">
+			{features.map((f) => (
+				<div class="ff-card">
+					<span class="mono ff-num">{f.label}</span>
+					<h3>{f.title}</h3>
+					<p>{f.body}</p>
+				</div>
+			))}
+		</div>
+	</section>
+
+	<section class="section">
+		<h2 class="section-label">{"// data"}</h2>
+		<ul class="list ff-sources">
+			{sources.map(([what, from]) => (
+				<li>
+					<span class="ff-key">{what}</span>
+					<span class="app-summary">{from}</span>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<section class="section">
+		<h2 class="section-label">{"// built with"}</h2>
+		<p class="ff-text">
+			Flutter. 식품안전나라 키는 동시 요청을 1건만 허용해서, Cloudflare Worker와 Durable Object로
+			중계 서버를 두고 요청을 한 줄로 세웠습니다. 키는 앱 밖에 있습니다. 동시 4건 테스트에서 직접 호출은 2건이
+			실패했고, 중계를 거치면 4건 모두 성공했습니다.
+		</p>
+	</section>
+
+	<p class="ff-note">푸드핏의 판단은 참고 정보이며, 의료 진단이나 치료를 대신하지 않습니다.</p>
+</Base>
+
+<style>
+	.ff-hero {
+		text-align: center;
+		padding: 8px 0 8px;
+	}
+
+	.ff-hero :global(.ff-icon) {
+		width: 88px;
+		height: 88px;
+		border-radius: 22%;
+		display: block;
+		margin: 0 auto 20px;
+	}
+
+	.ff-hero h1 {
+		font-size: 30px;
+		line-height: 1.3;
+		margin: 0;
+	}
+
+	.ff-tagline {
+		font-size: 20px;
+		color: var(--accent);
+		margin: 10px 0 0;
+		font-weight: 600;
+	}
+
+	.ff-sub {
+		color: var(--muted);
+		font-size: 15px;
+		margin: 6px 0 0;
+	}
+
+	.ff-actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 10px 18px;
+		margin-top: 28px;
+	}
+
+	.ff-button {
+		display: inline-block;
+		padding: 10px 20px;
+		border-radius: 999px;
+		background: var(--accent);
+		color: var(--bg);
+		font-weight: 600;
+		font-size: 15px;
+	}
+
+	.ff-button:hover {
+		color: var(--bg);
+		opacity: 0.9;
+	}
+
+	.ff-button.is-pending {
+		background: var(--surface);
+		border: 1px solid var(--line);
+		color: var(--muted);
+	}
+
+	.ff-link {
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.ff-shots {
+		display: flex;
+		gap: 14px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		margin: 48px -16px 0;
+		padding: 0 16px 12px;
+		scrollbar-width: thin;
+	}
+
+	.ff-shots :global(img) {
+		flex: none;
+		width: 220px;
+		height: auto;
+		border-radius: 14px;
+		scroll-snap-align: start;
+		border: 1px solid var(--line);
+	}
+
+	.ff-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.ff-card {
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 10px;
+		padding: 16px 18px;
+	}
+
+	.ff-num {
+		font-size: 12px;
+		color: var(--faint);
+	}
+
+	.ff-card h3 {
+		font-size: 16px;
+		margin: 4px 0 6px;
+	}
+
+	.ff-card p,
+	.ff-text {
+		color: var(--text);
+		font-size: 14.5px;
+		line-height: 1.75;
+		margin: 0;
+	}
+
+	.ff-sources .ff-key {
+		flex: none;
+		width: 96px;
+		font-weight: 600;
+	}
+
+	.ff-note {
+		margin: 56px 0 0;
+		padding: 12px 16px;
+		border-left: 2px solid var(--accent);
+		background: var(--surface);
+		border-radius: 6px;
+		color: var(--muted);
+		font-size: 14px;
+	}
+
+	@media (max-width: 560px) {
+		.ff-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
